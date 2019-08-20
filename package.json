@@ -9,12 +9,13 @@
   },
   "scripts": {
     "dev": "babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server --open",
-    "lint": "eslint src/**/*.js src/**/*.jsx",
+    "lint": "eslint src/**/*.js src/**/*.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "babel-node ./node_modules/webpack/bin/webpack"
   },
   "dependencies": {
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.5.4",
