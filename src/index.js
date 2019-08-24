@@ -4,13 +4,12 @@ import styled, { createGlobalStyle } from 'styled-components'
 
 import getFont from './utils/font'
 
-import Header from './components/header'
+import JourneyDetails from './components/journey-details'
+import Map from './components/map'
 
 const GlobalStyle = createGlobalStyle`
   html, body, #root {
     margin: 0;
-    font-family: sans-serif;
-    background-color: #fafafa;
   }
 `
 
@@ -26,20 +25,14 @@ const Row = styled.div`
     display: flex;
 `
 
-const UserInput = styled.div`
-    height: 100px;
-`
-
 const App = () => (
     <main>
         <Row>
             <Column flexSize={1}>
-                <UserInput>
-                    <Header title="dUber"/>
-                </UserInput>
+                <JourneyDetails />
             </Column>
             <Column flexSize={2}>
-                <p>Column 2</p>
+                <Map />
             </Column>
         </Row>
         <GlobalStyle />
