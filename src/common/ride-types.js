@@ -17,7 +17,7 @@ const rideTypes = [{
     id: 'chopper',
     name: 'Chopper',
     surchage: 25,
-    canSetNumSeats: false
+    canSetNumSeats: true
 }]
 
 export function getAllRideTypes () { return rideTypes }
