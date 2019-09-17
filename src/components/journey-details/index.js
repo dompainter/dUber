@@ -21,7 +21,8 @@ const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 0 20px;
+    position: relative;
+    height: 100%;
 `
 
 const InputContainer = styled.div`
@@ -52,8 +53,10 @@ const SubmitButton = styled.button`
 const ConfirmationContainer = styled.div`
     display: flex;
     flex-direction: row;
-    padding: 10px 20px;
     height: 40px;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
 `
 
 const StyledSelect = styled.select`

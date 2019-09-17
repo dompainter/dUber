@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
 
 import getFont from './utils/font'
-
 import JourneyDetails from './components/journey-details'
 import Map from './components/map'
+import { chelseaBlue, black } from './utils/palette'
 
 const GlobalStyle = createGlobalStyle`
   html, body, #root {
@@ -22,16 +22,31 @@ const Column = styled.div`
 
 const Row = styled.div`
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     display: flex;
-    margin-top: 10px;
+`
+
+const DetailsCol = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`
+
+const Logo = styled.h1`
+    font: ${getFont({ size: 50, fontFamily: '\'Righteous\', cursive' })};
+    text-align: center;
+    color: ${chelseaBlue};
+    text-shadow: -2px 3px 2px ${black};
 `
 
 const App = () => (
     <main>
         <Row>
             <Column flexSize={1}>
-                <JourneyDetails />
+                <DetailsCol>
+                    <Logo>dUber</Logo>
+                    <JourneyDetails />
+                </DetailsCol>
             </Column>
             <Column flexSize={2}>
                 <Map />
