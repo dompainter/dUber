@@ -17,12 +17,14 @@ const Column = styled.div`
     display: flex;
     font: ${getFont()};
     flex: ${props => props.flexSize || 1};
+    margin-left: 10px;
 `
 
 const Row = styled.div`
     height: 100vh;
     width: 100vw;
     display: flex;
+    margin-top: 10px;
 `
 
 const App = () => (
