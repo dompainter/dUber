@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+
 import { getAllRideTypes, getRideType } from '../../common/ride-types'
 import getFont from '../../utils/font'
-import { chelseaBlue, grey, white } from '../../utils/palette'
+import { chelseaBlue, grey, white, black } from '../../utils/palette'
 
 import FareEstimate from '../fare-estimate'
 
@@ -22,12 +23,30 @@ const InputContainer = styled.div`
 const TextInput = styled.input`
     font: ${getFont()};
     margin-bottom: ${props => props.bottomMargin ? '10px' : 0};
+    height: 40px;
+    padding: 0 10px;
+    background-color: ${grey};
+    border: 0;
+
+    ::placeholder {
+        color: ${black};
+    }
 `
 
 const SubmitButton = styled.button`
     background-color: ${chelseaBlue};
     color: ${white};
-    border: 1px solid ${grey};
+    border: 0;
+    min-width: 40px;
+    font: ${getFont({ size: 20 })};
+    padding: 0;
+`
+
+const ConfirmationContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 10px 20px;
+    height: 40px;
 `
 
 const JourneyDetails = () => {
@@ -67,10 +86,13 @@ const JourneyDetails = () => {
                     <label>2</label>
                 </InputContainer>
             )}
-            <FareEstimate />
-            <SubmitButton type="submit">
-                <i className="fas fa-chevron-right"></i>
-            </SubmitButton>
+
+            <ConfirmationContainer>
+                <FareEstimate />
+                <SubmitButton type="submit">
+                    <i className="fas fa-chevron-right"></i>
+                </SubmitButton>
+            </ConfirmationContainer>
         </StyledForm>
     )
 }

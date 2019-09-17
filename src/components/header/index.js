@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import getFont from '../../utils/font'
 
 const Title = styled.h1`
-    font: ${getFont({ fontSize: 20, fontWeight: 600 })};
+    font: ${getFont({ size: 20, weight: 600 })};
 `
 
 const Header = ({ title }) => (
