@@ -1,3 +1,5 @@
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import styled, { createGlobalStyle } from 'styled-components'
@@ -8,9 +10,9 @@ import Map from './components/map'
 import { chelseaBlue, black } from './utils/palette'
 
 const GlobalStyle = createGlobalStyle`
-  html, body, #root {
-    margin: 0;
-  }
+    html, body, #root {
+        margin: 0;
+    }
 `
 
 const Column = styled.div`

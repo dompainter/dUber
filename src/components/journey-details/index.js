@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
+import Autocomplete from 'react-autocomplete'
 
 import { getAllRideTypes, getRideType } from '../../common/ride-types'
 import getFont from '../../utils/font'
 import { chelseaBlue, grey, white, black } from '../../utils/palette'
+import search from '../../utils/search'
 
 import FareEstimate from '../fare-estimate'
-
-const baseInputStyle = css`
-    font: ${getFont()};
-    height: 40px;
-    padding: 0 10px;
-    background-color: ${grey};
-    border: 0;
-    border-radius: 5px;
-    box-sizing: border-box;
-`
 
 const StyledForm = styled.form`
     display: flex;
@@ -30,15 +22,6 @@ const InputContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     padding: 10px 0;
-`
-
-const TextInput = styled.input`
-    ${baseInputStyle}
-    margin-bottom: ${props => props.bottomMargin ? '10px' : 0};    
-
-    ::placeholder {
-        color: ${black};
-    }
 `
 
 const SubmitButton = styled.button`
@@ -60,8 +43,13 @@ const ConfirmationContainer = styled.div`
 `
 
 const StyledSelect = styled.select`
-    ${baseInputStyle}
-
+    font: ${getFont()};
+    height: 40px;
+    padding: 0 10px;
+    background-color: ${grey};
+    border: 0;
+    border-radius: 5px;
+    box-sizing: border-box;
     appearance: none;
 `
 
@@ -94,11 +82,36 @@ const SeatButton = styled.button`
     }
 `
 
+const LocationItem = styled.div`
+    font: ${getFont({ size: 16, lineHeight: 1.5 })};
+    background-color: ${props => props.isHighlighted ? grey : white};
+    color: black;
+    transition: all .2s ease-in;
+    cursor: pointer;
+    padding: 3px 10px;
+`
+
+const inputStyle = {
+    font: '14px Heebo, sans-serif', // Doesn't enjoy using getFont with an inline style
+    height: '40px',
+    padding: '0 10px',
+    backgroundColor: grey,
+    border: 0,
+    borderRadius: '5px',
+    boxSizing: 'border-box',
+    width: '100%',
+    outline: 0
+}
+
 const JourneyDetails = () => {
     const rideTypes = getAllRideTypes()
     const [isNumSeatsVisible, setIsNumSeatsVisible] = useState(false)
     const [rideTypeId, setRideTypeId] = useState(rideTypes[1].id)
     const [numSeats, setNumSeats] = useState(0)
+    const [startLocation, setStartLocation] = useState()
+    const [endLocation, setEndLocation] = useState()
+    const [startSuggestions, setStartSuggestions] = useState([])
+    const [endSuggestions, setEndSuggestions] = useState([])
 
     useEffect(() => {
         const rideType = getRideType(rideTypeId)
@@ -116,11 +129,63 @@ const JourneyDetails = () => {
         setNumSeats(e.target.value)
     }
 
+    useEffect(() => {
+        async function fetchLocations () {
+            const results = await search(startLocation) // TODO: Debounce this
+            setStartSuggestions(results)
+        }
+
+        fetchLocations()
+    }, [startLocation])
+
+    useEffect(() => {
+        async function fetchLocations () {
+            const results = await search(endLocation) // TODO: Debounce this
+            setEndSuggestions(results)
+        }
+
+        fetchLocations()
+    }, [endLocation])
+
     return (
         <StyledForm>
             <InputContainer>
-                <TextInput type="text" id="startLocation" placeholder="Start Location" bottomMargin />
-                <TextInput type="text" id="endLocation" placeholder="End Location" />
+                <Heading>Start Location</Heading>
+                <Autocomplete
+                    items={startSuggestions}
+                    value={startLocation}
+                    onChange={(e) => setStartLocation(e.target.value)}
+                    getItemValue={(item) => item.address}
+                    renderItem={(item, isHighlighted) =>
+                        <LocationItem key={`${item.address}-start`} isHighlighted={isHighlighted}>
+                            {item.address}
+                        </LocationItem>
+                    }
+                    inputProps={{ style: inputStyle }}
+                    menuStyle={{ visibility: startSuggestions.length ? 'visible' : 'hidden' }}
+                    onSelect={val => {
+                        setStartLocation(val)
+                        setStartSuggestions([]) // Reset suggestions on selected value
+                    }}
+                />
+                <Heading>End Location</Heading>
+                <Autocomplete
+                    items={endSuggestions}
+                    value={endLocation}
+                    onChange={(e) => setEndLocation(e.target.value)}
+                    getItemValue={(item) => item.address}
+                    renderItem={(item, isHighlighted) =>
+                        <LocationItem key={`${item.address}-end`} isHighlighted={isHighlighted}>
+                            {item.address}
+                        </LocationItem>
+                    }
+                    inputProps={{ style: inputStyle }}
+                    menuStyle={{ visibility: endSuggestions.length ? 'visible' : 'hidden' }}
+                    onSelect={val => {
+                        setEndLocation(val)
+                        setEndSuggestions([]) // Reset suggestions on selected value
+                    }}
+                />
             </InputContainer>
 
             <Heading>Ride Type</Heading>
